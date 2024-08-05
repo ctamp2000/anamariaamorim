@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Previsão do Tempo</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0 0 40px 0;
+            background-color: #f98a2f;
+        }
+        h1  {
+            text-align: center;
+            color: #fff;
+            font-size: 30px;
+            margin: 0;
+            padding: 20px 20px 0 20px; /* Aplica 20px de padding em todos os lados */
+            margin-bottom: 0;
+            border: none;
+        }
+        .input-container {
+            position: relative; /* Permite que os elementos filhos sejam posicionados de forma absoluta em relação a este container */
+            max-width: 300px;
+            margin: 0 auto;
+            padding: 0 20px; /* 0 no topo e embaixo, 20px à direita e à esquerda; mantém o padding horizontal */
+           /* border-radius: 0;*/
+            }
+        .input-container input[type="text"] {
+            width: 100%; /* garante que o input ocupe toda a largura disponível dentro de seu container, adaptando-se a diferentes tamanhos de tela. */
+            padding: 10px 40px 10px 10px; /* sup dir inf esq - Espaço à direita para o ícone */
+            border: 4px solid #fff;
+            border-radius: 0;
+            font-size: 14px;
+            box-sizing: border-box; /* Garante que padding e border sejam incluídos na largura total */
+            margin-top: 5px; /* Adiciona espaço entre o título e o input */
+        }
+        .input-container .search-icon {
+            position: absolute;
+            top: 50%;
+            right: 10px;
+            transform: translateY(-50%);
+            background-color: transparent;
+            border: none;
+            color: #090000;
+            font-size: 14px;   /* Reduz o tamanho do ícone */
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px 20px 10px 10px; /* sup dir inf esq - Espaço à direita para o ícone padding: 0;*/
+        }
+        /* Espaço para a previsão da cidade digitada */
+        .response-container {
+            max-width: 250px;
+            margin: 20px auto 0; /* Adiciona margem superior de 20px e centraliza horizontalmente */
+            padding: 0 20px 0 70px; /* 0 no topo e embaixo, 20px à direita e 70px à esquerda;padding */
+            border-radius: 0;
+            background-color: rgb(240, 217, 179);
+        }
+        /* Linha */
+        hr{
+            border: none;                /* Remove a borda padrão */
+            height: 1px;                 /* Define a altura da linha */
+            background-color: #ececad;   /* Define a cor da linha */
+            width: 30%;                  /* Define a largura da linha */
+            margin: 20px auto;           /* Centraliza horizontalmente e adiciona margem */
+        }
+        /* Título para as 10 capitais */
+        .titulo {
+            font-size: 20px;  /* Tamanho da fonte */
+            font-weight: bold; /* Peso da fonte */
+            color: #fff;    /* Cor da fonte */
+            text-align: center;/* Alinhamento do texto */
+            margin-top: 20px;
+            margin-bottom: 20px; /* Espaçamento abaixo do título */
+            /*text-transform: uppercase; /* Transformar texto em maiúsculas */
+            /*border-top: 3px solid #fff;  /* Linha acima do título */
+        }
+        /* Espaço para a previsão das 10 capitais aleatórias */
+        ul {     
+            list-style-type: none;
+            max-width: 300px;
+            margin: 20px auto 0; /* Adiciona margem superior de 20px e centraliza horizontalmente */
+            padding: 0 20px;
+            border-radius: 0;
+        }
+        /* Definir 2 colunas */
+        .duas-colunas {
+            column-count: 2;
+            column-gap: 20px;
+            background-color: rgb(240, 217, 179);
+            max-width: 300px;
+        }
+        /* Posição das linhas da previsão das 10 capitais */
+        .duas-colunas li {
+            list-style-type: none; /* Remove os marcadores da lista */
+            margin-bottom: 10px;   /* Espaçamento entre os itens */
+        }
+
+        /* Ativar a responsividade - ajuste para os diversos dispositivos */
+        .form-container    {
+            display: flex; /* Ativa o flexbox */
+            flex-direction: column; /* Alinha elementos verticalmente */
+            gap: 15px;   /* Espaço entre os elementos */
+        }        
+        /* Media Queries para Responsividade */
+        @media (max-width: 768px) {
+            .input-container {
+                padding: 15px; /* Reduzir padding em telas menores */
+            }
+            .input-container input[type="text"] {
+                font-size: 12px; /* Reduzir tamanho da fonte em telas menores */
+                padding: 8px 45px 8px 8px; /* Ajustar padding para telas menores */
+            }
+            .input-container .search-icon {
+                font-size: 12px; /* Ajustar tamanho do ícone em telas menores */
+                right: 8px; /* Ajustar posição do ícone em telas menores */
+                width: 25px;
+                height: 25px;
+            }
+        }
+        @media (max-width: 480px) {
+            .input-container {
+                padding: 0 10px;
+            }
+            .input-container input[type="text"] {
+                font-size: 10px;
+                padding: 6px 40px 6px 6px;
+            }
+            .input-container .search-icon {
+                font-size: 10px;
+                right: 5px;
+                width: 20px;
+                height: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">      
+        <h1>Previsão do tempo</h1>
+        <form id="weather-form">
+            <div class="response-container" id="response-container">
+                <!-- A resposta aparecerá aqui -->
+            </div>
+                <div class="input-container">
+                <input type="text" id="city" name="city" required placeholder="Insira aqui o nome da cidade">
+                <button type="submit" class="search-icon">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+            <hr>
+            <div class="titulo">Capitais</div>
+            <ul class="duas-colunas" id="weather-list"></ul>  <!-- As informações aparecerão aqui -->
+        </form>
+    </div> 
+    <script>
+        const form = document.getElementById('weather-form');
+        const weatherList = document.getElementById('weather-list');
+        const apiKey = 'c549f0740d6eea7386aa11db1e12ae29'; // Substitua com sua chave de API
+        const capitais = [
+            "Rio de Janeiro",
+            "São Paulo",
+            "Belo Horizonte",
+            "Brasília",
+            "Salvador",
+            "Fortaleza",
+            "Curitiba",
+            "Manaus",
+            "Recife",
+            "Belém",
+            "Porto Alegre",
+            "Goiânia",
+            "São Luís",
+            "Maceió",
+            "Natal",
+            "Teresina",
+            "João Pessoa",
+            "Aracaju",
+            "Campo Grande",
+            "Cuiabá",
+            "Vitória",
+            "Florianópolis",
+            "Macapá",
+            "Rio Branco",
+            "Palmas",
+            "Boa Vista",
+            "Porto Velho"
+        ];
+        //Selecionar 10 capitais de forma aleatória para mostrar na tela
+        function getRandomCapitals(capitals, num) {
+            const shuffled = capitals.sort(() => 0.5 - Math.random());
+            return shuffled.slice(0, num);
+        }
+        const randomCapitals = getRandomCapitals(capitais, 10);
+        //Solicitações à API da OpenWeatherMap para obter a previsão do tempo das 6 capitais selecionadas
+        async function getWeatherData(city) {
+            const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city},br&appid=${apiKey}&units=metric&lang=pt_br`);
+            const data = await response.json();
+            return data;
+        }
+        async function fetchWeatherForRandomCapitals() {
+            const weatherData = [];
+            for (const city of randomCapitals) {
+                const data = await getWeatherData(city);
+                weatherData.push(data);
+            }
+            return weatherData;
+        }
+        fetchWeatherForRandomCapitals().then(weatherData => {
+            weatherData.forEach(data => {
+                const listItem = document.createElement('li');
+                listItem.textContent = `${data.name}: ${data.weather[0].description}, ${data.main.temp}°C`;
+                weatherList.appendChild(listItem); // Adiciona o item de lista ao contêiner weatherList
+            });
+        });
+        const weatherDiv = document.getElementById('response-container');
+        form.addEventListener('submit', async (event) => {
+            event.preventDefault();
+            const city = document.getElementById('city').value;
+            const url = `https://api.openweathermap.org/data/2.5/weather?q=${city},br&appid=${apiKey}&units=metric&lang=pt`;
+
+            try {
+                const response = await fetch(url);
+                if (!response.ok) {
+                    document.getElementById('response-container').textContent = ''; /*limpa o response-container*/
+                    throw new Error('Cidade não encontrada');
+                }
+                const data = await response.json();
+                weatherDiv.innerHTML = `
+                    <p>${city}</p>
+                    <p>Temperatura: ${data.main.temp}°C</p>
+                    <p>Descrição: ${data.weather[0].description}</p>
+                    <p>Umidade: ${data.main.humidity}%</p>
+                    <p>Velocidade do Vento: ${data.wind.speed}m/s</p>
+                `;
+                document.getElementById('city').value = ''; /*limpa cidade digitada*/
+            } catch (error) {
+                weatherDiv.innerHTML = `<p style="color: red;">${error.message}</p>`;
+            }
+        });
+    </script>
+</body>
+</html>
