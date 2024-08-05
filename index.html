@@ -56,10 +56,45 @@
         .response-container {
             max-width: 250px;
             margin: 20px auto 0; /* Adiciona margem superior de 20px e centraliza horizontalmente */
-            padding: 0 20px 0 70px; /* 0 no topo e embaixo, 20px à direita e 70px à esquerda;padding */
             border-radius: 0;
             background-color: rgb(240, 217, 179);
             font-size: 14px;
+        }
+        /* Define o estilo para o container com padding */
+        .padded-container {
+            padding: 10px;
+        }
+        /* Define o estilo para o nome da cidade */
+        .city-name {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+            margin-top: 20px;
+        }
+        /* Define o estilo para a temperatura */
+        .temperature {
+            font-size: 20px;
+            color: #ff6600;
+        }
+        /* Define o estilo para a descrição */
+        .description {
+            font-size: 18px;
+            color: #0066cc;
+        }
+        /* Define o estilo para a umidade */
+        .humidity {
+            font-size: 18px;
+            color: #009900;
+        }
+        /* Define o estilo para a velocidade do vento */
+        .wind-speed {
+            font-size: 18px;
+            color: #cc0000;
+        }
+        /* Define o estilo para mensagens de erro */
+        .error-message {
+            font-size: 14px;
+            color: red;
         }
         /* Linha */
         hr{
@@ -229,19 +264,22 @@
                 const response = await fetch(url);
                 if (!response.ok) {
                     document.getElementById('response-container').textContent = ''; /*limpa o response-container*/
+                    weatherDiv.classList.remove('padded-container'); // remove padding
                     throw new Error('Cidade não encontrada');
                 }
                 const data = await response.json();
                 weatherDiv.innerHTML = `
-                    <p>${city}</p>
-                    <p>Temperatura: ${data.main.temp}°C</p>
-                    <p>Descrição: ${data.weather[0].description}</p>
-                    <p>Umidade: ${data.main.humidity}%</p>
-                    <p>Velocidade do Vento: ${data.wind.speed}m/s</p>
+                    <p class="city-name">Cidade: <strong>${city}</strong></p>
+                    <p class="temperature">Temperatura: <strong>${data.main.temp}°C</strong></p>
+                    <p class="description">Descrição: <strong>${data.weather[0].description}</strong></p>
+                    <p class="humidity">Umidade: <strong>${data.main.humidity}%</strong></p>
+                    <p class="wind-speed">Velocidade do Vento: <strong>${data.wind.speed} m/s</strong></p>
                 `;
+                weatherDiv.classList.add('padded-container'); // adiciona padding
                 document.getElementById('city').value = ''; /*limpa cidade digitada*/
             } catch (error) {
-                weatherDiv.innerHTML = `<p style="color: red;">${error.message}</p>`;
+                weatherDiv.innerHTML = `<p class="error-message">${error.message}</p>`;
+                weatherDiv.classList.remove('padded-container'); // remove padding
             }
         });
     </script>
