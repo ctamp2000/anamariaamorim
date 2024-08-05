@@ -59,6 +59,7 @@
             padding: 0 20px 0 70px; /* 0 no topo e embaixo, 20px à direita e 70px à esquerda;padding */
             border-radius: 0;
             background-color: rgb(240, 217, 179);
+            font-size: 14px;
         }
         /* Linha */
         hr{
@@ -84,7 +85,7 @@
             list-style-type: none;
             max-width: 300px;
             margin: 20px auto 0; /* Adiciona margem superior de 20px e centraliza horizontalmente */
-            padding: 0 20px;
+            padding: 10px 20px;
             border-radius: 0;
         }
         /* Definir 2 colunas */
@@ -92,7 +93,7 @@
             column-count: 2;
             column-gap: 20px;
             background-color: rgb(240, 217, 179);
-            max-width: 300px;
+        /*    max-width: 300px;*/
         }
         /* Posição das linhas da previsão das 10 capitais */
         .duas-colunas li {
@@ -146,7 +147,7 @@
             <div class="response-container" id="response-container">
                 <!-- A resposta aparecerá aqui -->
             </div>
-                <div class="input-container">
+            <div class="input-container">
                 <input type="text" id="city" name="city" required placeholder="Insira aqui o nome da cidade">
                 <button type="submit" class="search-icon">
                     <i class="fas fa-search"></i>
@@ -190,6 +191,7 @@
             "Boa Vista",
             "Porto Velho"
         ];
+        document.getElementById('response-container').textContent = ''; /*limpa o response-container*/
         //Selecionar 10 capitais de forma aleatória para mostrar na tela
         function getRandomCapitals(capitals, num) {
             const shuffled = capitals.sort(() => 0.5 - Math.random());
