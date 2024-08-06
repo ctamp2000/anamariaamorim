@@ -6,13 +6,13 @@
     <title>Previsão do Tempo</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        body {
+        body {  /* Tela */
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0 0 40px 0;
             background-color: #f98a2f;
         }
-        h1  {
+        h1 {  /* Título da tela */
             text-align: center;
             color: #fff;
             font-size: 30px;
@@ -21,7 +21,7 @@
             margin-bottom: 0;
             border: none;
         }
-        .input-container {
+        .input-container {  /* campo de entrada *?
             position: relative; /* Permite que os elementos filhos sejam posicionados de forma absoluta em relação a este container */
             max-width: 300px;
             margin: 0 auto;
@@ -51,91 +51,85 @@
             align-items: center;
             justify-content: center;
             padding: 20px 20px 10px 10px; /* sup dir inf esq - Espaço à direita para o ícone padding: 0;*/
-        }
-        /* Espaço para a previsão da cidade digitada */
-        .response-container {
+        }        
+        .response-container {  /* Espaço para a previsão da cidade digitada */
             max-width: 250px;
             margin: 20px auto 0; /* Adiciona margem superior de 20px e centraliza horizontalmente */
             border-radius: 0;
             background-color: rgb(240, 217, 179);
             font-size: 14px;
-        }
-        /* Define o estilo para o container com padding */
-        .padded-container {
+        }        
+        .padded-container {   /* Define o estilo para o container da previsão da cidade digitada */
             padding: 10px;
-        }
-        /* Define o estilo para o nome da cidade */
-        .city-name {
+        }        
+        .city-name {    /* Define o estilo para o nome da cidade */
             font-size: 24px;
             font-weight: bold;
             color: #333;
             margin-top: 20px;
-        }
-        /* Define o estilo para a temperatura */
-        .temperature {
+        }        
+        .temperature {    /* Define o estilo para a temperatura */
             font-size: 20px;
             color: #ff6600;
-        }
-        /* Define o estilo para a descrição */
-        .description {
+        }        
+        .description {   /* Define o estilo para a descrição */
             font-size: 18px;
             color: #0066cc;
-        }
-        /* Define o estilo para a umidade */
-        .humidity {
+        }        
+        .humidity {    /* Define o estilo para a umidade */
             font-size: 18px;
             color: #009900;
-        }
-        /* Define o estilo para a velocidade do vento */
-        .wind-speed {
+        }        
+        .wind-speed {    /* Define o estilo para a velocidade do vento */
             font-size: 18px;
             color: #cc0000;
-        }
-        /* Define o estilo para mensagens de erro */
-        .error-message {
+        }        
+        .error-message {   /* Define o estilo para mensagens de erro */
             font-size: 14px;
             color: red;
         }
-        /* Linha */
-        hr{
+        hr{  /* linha de separação */
             border: none;                /* Remove a borda padrão */
             height: 1px;                 /* Define a altura da linha */
             background-color: #ececad;   /* Define a cor da linha */
             width: 30%;                  /* Define a largura da linha */
             margin: 20px auto;           /* Centraliza horizontalmente e adiciona margem */
+        }        
+        .lista-container {  /* Espaço para a previsão das 10 capitais aleatórias */
+            /*margin-top: 20px;*/
+            list-style-type: none;
+            max-width: 400px;
+            margin: 20px auto 0; /* Adiciona margem superior de 20px e centraliza horizontalmente */
+            /*padding: 10px 20px; */
+            border-radius: 0;
         }
-        /* Título para as 10 capitais */
-        .titulo {
+        .lista-container h2 { /* título da lista - Capitais */
+            margin-left: 20px;
+            margin-bottom: 0;
             font-size: 20px;  /* Tamanho da fonte */
             font-weight: bold; /* Peso da fonte */
             color: #fff;    /* Cor da fonte */
-            text-align: center;/* Alinhamento do texto */
-            margin-top: 20px;
-            margin-bottom: 20px; /* Espaçamento abaixo do título */
-            /*text-transform: uppercase; /* Transformar texto em maiúsculas */
-            /*border-top: 3px solid #fff;  /* Linha acima do título */
+            text-align: left;/* Alinhamento do texto */
         }
-        /* Espaço para a previsão das 10 capitais aleatórias */
-        ul {     
-            list-style-type: none;
-            max-width: 300px;
-            margin: 20px auto 0; /* Adiciona margem superior de 20px e centraliza horizontalmente */
-            padding: 10px 20px;
-            border-radius: 0;
+        .lista-container h1 { /* título das informações da lista - Min Max S*/
+            font-size: 10px;  /* Tamanho da fonte */
+            font-weight: bold; /* Peso da fonte */
+            color: #0f0d0d;    /* Cor da fonte */
+            text-align: left;/* Alinhamento do texto */
         }
-        /* Definir 2 colunas */
         .duas-colunas {
-            column-count: 2;
+            columns: 2; /* Exibe a lista em duas colunas */
             column-gap: 20px;
-            background-color: rgb(240, 217, 179);
-        /*    max-width: 300px;*/
+            list-style-type: disc; /* Define o tipo de marcador da lista */
+            padding-left: 20px; /* Adiciona padding à esquerda para os marcadores */
         }
         /* Posição das linhas da previsão das 10 capitais */
         .duas-colunas li {
             list-style-type: none; /* Remove os marcadores da lista */
             margin-bottom: 10px;   /* Espaçamento entre os itens */
+            break-inside: avoid; /* Evita que itens quebrem entre colunas */
         }
-
+        /*
         /* Ativar a responsividade - ajuste para os diversos dispositivos */
         .form-container    {
             display: flex; /* Ativa o flexbox */
@@ -177,20 +171,23 @@
 </head>
 <body>
     <div class="form-container">      
-        <h1>Previsão do tempo</h1>
+        <h1>Previsão do tempo</h1>  <!-- Título da tela-->
         <form id="weather-form">
             <div class="response-container" id="response-container">
                 <!-- A resposta aparecerá aqui -->
             </div>
-            <div class="input-container">
-                <input type="text" id="city" name="city" required placeholder="Insira aqui o nome da cidade">
+            <div class="input-container">   <!-- campo de entrada -->
+                 <input type="text" id="city" name="city" required placeholder="Insira aqui o nome da cidade">
                 <button type="submit" class="search-icon">
                     <i class="fas fa-search"></i>
                 </button>
             </div>
-            <hr>
-            <div class="titulo">Capitais</div>
-            <ul class="duas-colunas" id="weather-list"></ul>  <!-- As informações aparecerão aqui -->
+            <hr> <!-- linha de separação -->
+             <div class="lista-container">   <!-- espaço para as informações da lista de capitais -->
+                <h2>Capitais</h2>   <!-- Título do bloco de informações -->
+                <h1>Min Max            Min Max</h1>    <!-- Título da Lista -->
+                <ul class="duas-colunas" id="weather-list"></ul>  <!-- As informações aparecerão aqui -->
+            </div> 
         </form>
     </div> 
     <script>
@@ -233,7 +230,7 @@
             return shuffled.slice(0, num);
         }
         const randomCapitals = getRandomCapitals(capitais, 10);
-        //Solicitações à API da OpenWeatherMap para obter a previsão do tempo das 6 capitais selecionadas
+        //Solicitações à API da OpenWeatherMap para obter a previsão do tempo das 10 capitais selecionadas
         async function getWeatherData(city) {
             const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city},br&appid=${apiKey}&units=metric&lang=pt_br`);
             const data = await response.json();
@@ -249,7 +246,7 @@
         }
         fetchWeatherForRandomCapitals().then(weatherData => {
             weatherData.forEach(data => {
-                const listItem = document.createElement('li');
+                const listItem = document.createElement('li');     
                 listItem.textContent = `${data.name}: ${data.weather[0].description}, ${data.main.temp}°C`;
                 weatherList.appendChild(listItem); // Adiciona o item de lista ao contêiner weatherList
             });
